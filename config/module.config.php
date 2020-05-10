@@ -15,4 +15,12 @@ return [
                         ],
                 ],
         ],
+        'navigation_links' => [
+            'invokables' => [
+                'page' => RoleBasedNavigation\Site\Navigation\Link\Page::class,
+                'url' => RoleBasedNavigation\Site\Navigation\Link\Url::class,
+                'browse' => RoleBasedNavigation\Site\Navigation\Link\Browse::class,
+                'browseItemSets' => RoleBasedNavigation\Site\Navigation\Link\BrowseItemSets::class
+            ]
+        ],
 ];

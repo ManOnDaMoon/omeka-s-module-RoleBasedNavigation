@@ -1,0 +1,16 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+
+$pages = $site->pages();
+$pageLabel = null;
+if (isset($pages[$data['id']])) {
+    $page = $pages[$data['id']];
+    $pageLabel = sprintf('%s (%s)', $page->title(), $page->slug());
+}
+$label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] : null;
+?>
+<label><?php echo $translate('Type'); ?> <input type="text" value="<?php echo $escape($translate($link->getName())); ?>" disabled></label>
+<label><?php echo $translate('Page'); ?> <input type="text" value="<?php echo $escape($pageLabel); ?>" disabled></label>
+<label><?php echo $translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>
+<label>Test <input type="test" value="" /></label>
