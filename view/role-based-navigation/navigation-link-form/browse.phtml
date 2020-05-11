@@ -1,10 +1,2 @@
-<?php
-$translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
-$label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] : null;
-$query = isset($data['query']) && '' !== trim($data['query']) ? $data['query'] : null;
-?>
-<label><?php echo $translate('Type'); ?> <input type="text" value="<?php echo $escape($translate($link->getName())); ?>" disabled></label>
-<label><?php echo $translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>
-<label><?php echo $translate('Query'); ?> <input type="text" data-name="query" value="<?php echo $escape($query); ?>"></label>
+<?php echo $this->partial('common/navigation-link-form/browse', ['data' => $data, 'link' => $link]);?>
 <?php echo $this->partial('role-based-navigation/common/role-select', ['data' => $data]);?>

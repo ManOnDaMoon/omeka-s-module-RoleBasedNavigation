@@ -11,6 +11,12 @@ class Page extends \Omeka\Site\Navigation\Link\Page
         return 'role-based-navigation/navigation-link-form/page';
     }
 
+    public function getName()
+    {
+        $name = parent::getName() . ' ';
+        return sprintf('%s (role based)', $name); // @translate
+    }
+
     public function toZend(array $data, SiteRepresentation $site)
     {
         $result = parent::toZend($data, $site);

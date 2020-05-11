@@ -4,28 +4,31 @@ $escape = $this->plugin('escapeHtml');
 $roleIds = isset($data['role_based_navigation_role_ids']) ? $data['role_based_navigation_role_ids'] : null;
 $formId = uniqid('_rbn');
 ?>
-<div id="<?php echo $formId?>" style="font-weight: normal"><label><?php echo $translate('Select role…'); ?></label> <?php echo $this->navRoleSelect([
-    'name' => 'role_based_navigation_role_ids',
-    'attributes' => [
-        'id' => 'role_based_navigation_role_ids' . $formId,
-        'class' => 'chosen-select',
-        'multiple' => 'multiple',
-        'value' => $roleIds,
-        'data-name' => 'role_based_navigation_role_ids',
-        'data-placeholder' => 'Select role…', // @translate
-        'data-collection-action' => 'replace',
-    ],
-    ]); ?>
-<script type="text/javascript">
-    $('#role_based_navigation_role_ids<?php echo $formId; ?>').chosen(chosenOptions);
-    $('.jstree-editlink-container').css('overflow', 'visible');
-    $('#role_based_navigation_role_ids<?php echo $formId; ?>').on('change', function(evt, params) {
-    	if (params.selected) {
-    	    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.selected + ']').attr('selected','selected');
-    	}
-    	if (params.deselected) {
-    	    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.deselected + ']').removeAttr('selected');
-    	}
-    });
-</script>
+<div id="<?php echo $formId?>" style="font-weight: normal;">
+	<label style="font-weight: bold;"><?php echo $translate('Roles filter'); ?></label>
+	<?php echo $this->navRoleSelect([
+            'name' => 'role_based_navigation_role_ids',
+            'attributes' => [
+                'id' => 'role_based_navigation_role_ids' . $formId,
+                'class' => 'chosen-select',
+                'multiple' => 'multiple',
+                'value' => $roleIds,
+                'data-name' => 'role_based_navigation_role_ids',
+                'data-placeholder' => 'Select role…', // @translate
+                'data-collection-action' => 'replace'
+            ]
+        ]);
+    ?>
+    <script type="text/javascript">
+        $('#role_based_navigation_role_ids<?php echo $formId; ?>').chosen(chosenOptions);
+        $('.jstree-editlink-container').css('overflow', 'visible');
+        $('#role_based_navigation_role_ids<?php echo $formId; ?>').on('change', function(evt, params) {
+        	if (params.selected) {
+        	    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.selected + ']').attr('selected','selected');
+        	}
+        	if (params.deselected) {
+        	    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.deselected + ']').removeAttr('selected');
+        	}
+        });
+    </script>
 </div>
