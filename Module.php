@@ -24,14 +24,15 @@ class Module extends AbstractModule
         SharedEventManagerInterface $sharedEventManager
     )
     {
-        $sharedEventManager->attach(
-            'Omeka\Api\Adapter\SiteAdapter',
-            'api.read.post',
-            array(
-                        $this,
-                        'filterNavigation'
-                )
-        );
+        $sharedEventManager->attach('Omeka\Api\Adapter\SiteAdapter', 'api.read.post', array(
+            $this,
+            'filterNavigation'
+        ));
+
+        $sharedEventManager->attach('Omeka\Api\Adapter\SiteAdapter', 'api.update.post', array(
+            $this,
+            'updateNavigation'
+        ));
     }
 
     /**
@@ -125,6 +126,27 @@ class Module extends AbstractModule
     public function onBootstrap(MvcEvent $event)
     {
         parent::onBootstrap($event);
+    }
+
+    public function updateNavigation(Event $event)
+    {
+        /* @var \Omeka\Api\Response $response */
+        /* @var \Omeka\Api\Request $request */
+        /* @var \Omeka\Entity\Site $site */
+        /* @var \Omeka\Mvc\Status $status */
+
+        $status = $this->serviceLocator->get('Omeka\Status');
+        $isNavUpdate = $status->getRouteMatch('admin/site/navigation');
+
+        if ($response = $event->getParam('response')) {
+
+            $request = $event->getParam('request');
+
+            $siteId = $request->getId();
+            $navigationData = $request->getContent();
+
+            // Do the work on updated navigation data
+        }
     }
 
     public function filterNavigation(Event $event)
