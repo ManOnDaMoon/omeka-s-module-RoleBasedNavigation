@@ -1,6 +1,8 @@
 <?php
 namespace RoleBasedNavigation\Site\Navigation\Link;
 
+use Omeka\Api\Representation\SiteRepresentation;
+
 class BrowseItemSets extends \Omeka\Site\Navigation\Link\BrowseItemSets
 {
 
