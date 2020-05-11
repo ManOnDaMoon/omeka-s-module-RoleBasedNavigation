@@ -13,9 +13,9 @@ class RoleSelectFactory implements FactoryInterface
         $userRoles = $acl->getRoleLabels(); // @translate
 
         $sitePermissions = [
-            'site_viewer' => 'Viewer', // @translate
-            'site_editor' => 'Editor', // @translate
-            'site_admin' => 'Admin', // @translate
+            'permission_viewer' => 'Viewer', // @translate
+            'permission_editor' => 'Editor', // @translate
+            'permission_admin' => 'Admin', // @translate
         ];
 
         $roles[] = ['label' => 'User roles', 'options' => $userRoles];
