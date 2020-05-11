@@ -9,35 +9,8 @@ if (isset($pages[$data['id']])) {
     $pageLabel = sprintf('%s (%s)', $page->title(), $page->slug());
 }
 $label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] : null;
-
-$roleIds = isset($data['role_based_navigation_role_ids']) ? $data['role_based_navigation_role_ids'] : null;
-$formId = uniqid('_page_rbn');
 ?>
 <label><?php echo $translate('Type'); ?> <input type="text" value="<?php echo $escape($translate($link->getName())); ?>" disabled></label>
 <label><?php echo $translate('Page'); ?> <input type="text" value="<?php echo $escape($pageLabel); ?>" disabled></label>
 <label><?php echo $translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>
-<div id="<?php echo $formId?>" style="font-weight: normal"><label><?php echo $translate('Select role…'); ?></label> <?php echo $this->navRoleSelect([
-    'name' => 'role_based_navigation_role_ids',
-    'attributes' => [
-        'id' => 'role_based_navigation_role_ids' . $formId,
-        'class' => 'chosen-select',
-        'multiple' => 'multiple',
-        'value' => $roleIds,
-        'data-name' => 'role_based_navigation_role_ids',
-        'data-placeholder' => 'Select role…', // @translate
-        'data-collection-action' => 'replace',
-    ],
-    ]); ?>
-<script type="text/javascript">
-	$('#role_based_navigation_role_ids<?php echo $formId; ?>').chosen(chosenOptions);
-	$('.jstree-editlink-container').css('overflow', 'visible');
-	$('#role_based_navigation_role_ids<?php echo $formId; ?>').on('change', function(evt, params) {
-		if (params.selected) {
-		    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.selected + ']').attr('selected','selected');
-		}
-		if (params.deselected) {
-		    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.deselected + ']').removeAttr('selected');
-		}
-	});
-</script>
-</div>
+<?php echo $this->partial('role-based-navigation/common/role-select', ['data' => $data]);?>
