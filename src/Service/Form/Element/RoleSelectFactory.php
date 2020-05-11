@@ -10,7 +10,17 @@ class RoleSelectFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $acl = $services->get('Omeka\Acl');
-        $roles = $acl->getRoleLabels();
+        $userRoles = $acl->getRoleLabels(); // @translate
+
+        $sitePermissions = [
+            'site_viewer' => 'Viewer', // @translate
+            'site_editor' => 'Editor', // @translate
+            'site_admin' => 'Admin', // @translate
+        ];
+
+        $roles[] = ['label' => 'User roles', 'options' => $userRoles];
+        $roles[] = ['label' => 'Site roles', 'options' => $sitePermissions];
+
         $element = new Select;
         $element->setValueOptions($roles);
         return $element;

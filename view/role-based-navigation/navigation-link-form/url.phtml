@@ -10,7 +10,7 @@ $formId = uniqid('_url_rbn');
 <label><?php echo $translate('Type'); ?> <input type="text" value="<?php echo $escape($translate($link->getName())); ?>" disabled></label>
 <label class="required"><?php echo $translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>" required></label>
 <label class="required"><?php echo $translate('URL'); ?> <input type="text" data-name="url" value="<?php echo $escape($url); ?>" required></label>
-<div id="<?php echo $formId?>"><label><?php echo $translate('Select role…'); ?></label> <?php echo $this->navRoleSelect([
+<div id="<?php echo $formId?>" style="font-weight: normal"><label><?php echo $translate('Select role…'); ?></label> <?php echo $this->navRoleSelect([
     'name' => 'role_based_navigation_role_ids',
     'attributes' => [
         'id' => 'role_based_navigation_role_ids' . $formId,
