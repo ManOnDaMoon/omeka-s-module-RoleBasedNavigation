@@ -33,10 +33,10 @@ $formId = uniqid('_page_rbn');
 	$('.jstree-editlink-container').css('overflow', 'visible');
 	$('#role_based_navigation_role_ids<?php echo $formId; ?>').on('change', function(evt, params) {
 		if (params.selected) {
-		    $('.chosen-select option[value=' + params.selected + ']').attr('selected','selected');
+		    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.selected + ']').attr('selected','selected');
 		}
 		if (params.deselected) {
-		    $('.chosen-select option[value=' + params.deselected + ']').removeAttr('selected');
+		    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.deselected + ']').removeAttr('selected');
 		}
 	});
 </script>

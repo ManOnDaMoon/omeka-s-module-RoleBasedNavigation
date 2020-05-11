@@ -23,15 +23,15 @@ $formId = uniqid('_url_rbn');
     ],
     ]); ?>
 <script type="text/javascript">
-	$('#role_based_navigation_role_ids<?php echo $formId; ?>').chosen(chosenOptions);
-	$('.jstree-editlink-container').css('overflow', 'visible');
-	$('#role_based_navigation_role_ids<?php echo $formId; ?>').on('change', function(evt, params) {
-		if (params.selected) {
-		    $('.chosen-select option[value=' + params.selected + ']').attr('selected','selected');
-		}
-		if (params.deselected) {
-		    $('.chosen-select option[value=' + params.deselected + ']').removeAttr('selected');
-		}
-	});
+    $('#role_based_navigation_role_ids<?php echo $formId; ?>').chosen(chosenOptions);
+    $('.jstree-editlink-container').css('overflow', 'visible');
+    $('#role_based_navigation_role_ids<?php echo $formId; ?>').on('change', function(evt, params) {
+    	if (params.selected) {
+    	    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.selected + ']').attr('selected','selected');
+    	}
+    	if (params.deselected) {
+    	    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.deselected + ']').removeAttr('selected');
+    	}
+    });
 </script>
 </div>
