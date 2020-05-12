@@ -52,18 +52,31 @@ class Module extends AbstractModule
 
         $popAll = empty($roles);
 
-        foreach ($navigation as $key => $link) {
+        foreach ($navigation as $linkKey => $link) {
             if (isset($link['data']['role_based_navigation_role_ids'])
                 && !empty($link['data']['role_based_navigation_role_ids'])) {
                 if ($popAll) {
-                    unset($navigation[$key]);
+                    unset($navigation[$linkKey]);
                     continue;
                 }
+
+                $authorizedRoles = $link['data']['role_based_navigation_role_ids'];
+
+                foreach ($authorizedRoles as $roleKey => $role){
+                    if (!in_array($role, $roles)) {
+                        unset($authorizedRoles[$roleKey]);
+                    }
+                }
+                if (empty($authorizedRoles)) {
+                    unset($navigation[$linkKey]);
+                    continue;
+                }
+
             }
 
-            // Recursively parse sub levels
+            // If kept, recursively parse existing sub links
             if (isset($link['links']) && !empty($link['links'])) {
-                $navigation[$key]['links'] = $this->filterNavigation($link['links'], $roles);
+                $navigation[$linkKey]['links'] = $this->filterNavigation($link['links'], $roles);
             }
         }
 
@@ -120,7 +133,7 @@ class Module extends AbstractModule
                 $navigation = $this->filterNavigation($navigation, $userRoles);
 
                 //  Reset navigation - Proof of concept
-                $site->setNavigation($navigation);
+                $site->setNavigation($navigation); // Has this just overwritten site navigation???
             }
         }
     }

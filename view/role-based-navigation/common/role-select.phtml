@@ -9,7 +9,7 @@ $formId = uniqid('_rbn');
 	<?php echo $this->navRoleSelect([
             'name' => 'role_based_navigation_role_ids',
             'attributes' => [
-                'id' => 'role_based_navigation_role_ids' . $formId,
+                'id' => 'role_select' . $formId,
                 'class' => 'chosen-select',
                 'multiple' => 'multiple',
                 'value' => $roleIds,
@@ -20,14 +20,21 @@ $formId = uniqid('_rbn');
         ]);
     ?>
     <script type="text/javascript">
-        $('#role_based_navigation_role_ids<?php echo $formId; ?>').chosen(chosenOptions);
+    	console.log('test');
+    	// This gets called each time jsTree is redrawn
+    	// So we need to delete possibly existing chosen nodes
+    	// FIXME : Yet still, moving a node disables the Chosen selector...
+    	// Need to register an event to jsTree
+    	// Need to keep a global list of selectors and update them based on jstree events
+		$('#role_select<?php echo $formId; ?>_chosen').remove();
+        $('#role_select<?php echo $formId; ?>').chosen(chosenOptions);
         $('.jstree-editlink-container').css('overflow', 'visible');
-        $('#role_based_navigation_role_ids<?php echo $formId; ?>').on('change', function(evt, params) {
+        $('#role_select<?php echo $formId; ?>').on('change', function(evt, params) {
         	if (params.selected) {
-        	    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.selected + ']').attr('selected','selected');
+        	    $('#role_select<?php echo $formId; ?> option[value=' + params.selected + ']').attr('selected','selected');
         	}
         	if (params.deselected) {
-        	    $('#role_based_navigation_role_ids<?php echo $formId; ?> > option[value=' + params.deselected + ']').removeAttr('selected');
+        	    $('#role_select<?php echo $formId; ?> option[value=' + params.deselected + ']').removeAttr('selected');
         	}
         });
     </script>
