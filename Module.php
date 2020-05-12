@@ -14,6 +14,11 @@ use Zend\View\Renderer\PhpRenderer;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\EventManager\Event;
 use Omeka\Api\Representation\SiteRepresentation;
+use Zend\Authentication\AuthenticationService;
+use Omeka\Api\Manager;
+use Omeka\Settings\UserSettings;
+use Omeka\Settings\SiteSettings;
+use Omeka\Entity\User;
 
 class Module extends AbstractModule
 {
@@ -26,12 +31,7 @@ class Module extends AbstractModule
     {
         $sharedEventManager->attach('Omeka\Api\Adapter\SiteAdapter', 'api.read.post', array(
             $this,
-            'filterNavigation'
-        ));
-
-        $sharedEventManager->attach('Omeka\Api\Adapter\SiteAdapter', 'api.update.post', array(
-            $this,
-            'updateNavigation'
+            'handleSiteNavigation'
         ));
     }
 
@@ -48,112 +48,55 @@ class Module extends AbstractModule
     }
 
     /**
-     * Upgrade this module.
+     *  Check roles
+     *  If mismatch or guest: pop $link
+     *  else
+     *  recursively call filterNavigation on sub links
      *
-     * @param string $oldVersion
-     * @param string $newVersion
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param array $navigation
+     * @param array $roles
+     * @return unknown
      */
-    public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
+    public function filterNavigation(array $navigation, array $roles = [])
     {
-//         $api = $serviceLocator->get('Omeka\ApiManager');
-//         $sites = $api->search('sites', [])->getContent();
-//         /** @var \Omeka\Settings\SiteSettings $siteSettings */
-//         $siteSettings = $serviceLocator->get('Omeka\Settings\Site');
+        $filteredNavigation = [];
 
-//         // v0.10 renamed site setting ID from 'restricted' to 'restrictedsites_restricted'
-//         if (Comparator::lessThan($oldVersion, '0.10')) {
-//             foreach ($sites as $site) {
-//                 $siteSettings->setTargetId($site->id());
-//                 if ($oldSetting = $siteSettings->get('restricted', null)) {
-//                     $siteSettings->set('restrictedsites_restricted', $oldSetting);
-//                     $siteSettings->delete('restricted');
-//                 }
-//             }
-//         }
-    }
+        $popAll = empty($roles);
 
-    public function uninstall(ServiceLocatorInterface $serviceLocator)
-    {
-//         $settings = $serviceLocator->get('Omeka\Settings');
-//         $settings->delete('restrictedsites_custom_email');
+        foreach($navigation as $key => $link) {
+            if (isset($link['data']['role_based_navigation_role_ids'])
+                && !empty($link['data']['role_based_navigation_role_ids'])) {
 
-//         $api = $serviceLocator->get('Omeka\ApiManager');
-//         $sites = $api->search('sites', [])->getContent();
-//         $siteSettings = $serviceLocator->get('Omeka\Settings\Site');
+                if ($popAll) {
+                    unset($navigation[$key]);
+                    continue;
+                }
+            }
 
-//         foreach ($sites as $site) {
-//             $siteSettings->setTargetId($site->id());
-//             $siteSettings->delete('restrictedsites_restricted');
-//         }
-    }
-
-    /**
-     * Get this module's configuration form.
-     *
-     * @param PhpRenderer $renderer
-     * @return string
-     */
-    public function getConfigForm(PhpRenderer $renderer)
-    {
-//         $formElementManager = $this->getServiceLocator()->get('FormElementManager');
-//         $form = $formElementManager->get(ConfigForm::class, []);
-//         return $renderer->formCollection($form, false);
-    }
-
-    /**
-     * Handle this module's configuration form.
-     *
-     * @param AbstractController $controller
-     * @return bool False if there was an error during handling
-     */
-    public function handleConfigForm(AbstractController $controller)
-    {
-//         $params = $controller->params()->fromPost();
-//         if (isset($params['restrictedsites_custom_email'])) {
-//             $customEmailSetting = $params['restrictedsites_custom_email'];
-//         }
-
-//         $globalSettings = $this->getServiceLocator()->get('Omeka\Settings');
-//         $globalSettings->set('restrictedsites_custom_email', $customEmailSetting);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see \Omeka\Module\AbstractModule::onBootstrap()
-     */
-    public function onBootstrap(MvcEvent $event)
-    {
-        parent::onBootstrap($event);
-    }
-
-    public function updateNavigation(Event $event)
-    {
-        /* @var \Omeka\Api\Response $response */
-        /* @var \Omeka\Api\Request $request */
-        /* @var \Omeka\Entity\Site $site */
-        /* @var \Omeka\Mvc\Status $status */
-
-        $status = $this->serviceLocator->get('Omeka\Status');
-        $isNavUpdate = $status->getRouteMatch('admin/site/navigation');
-
-        if ($response = $event->getParam('response')) {
-
-            $request = $event->getParam('request');
-
-            $siteId = $request->getId();
-            $navigationData = $request->getContent();
-
-            // Do the work on updated navigation data
+            // Recursively parse sub levels
+            if (isset($link['links']) && !empty($link['links'])) {
+                $navigation[$key]['links'] = $this->filterNavigation($link['links'], $roles);
+            }
         }
+
+        return $navigation;
     }
 
-    public function filterNavigation(Event $event)
+    /**
+     * Parse navigation array and filter based on user role and navigation configuration.
+     *
+     * @param Event $event
+     */
+    public function handleSiteNavigation(Event $event)
     {
         /* @var \Omeka\Api\Response $response */
         /* @var \Omeka\Entity\Site $site */
         /* @var \Omeka\Mvc\Status $status */
+        /* @var AuthenticationService $auth */
+        /* @var Manager $api */
+        /* @var UserSettings $userSettings */
+        /* @var SiteSettings $siteSettings */
+        /* @var User $user */
 
         $status = $this->serviceLocator->get('Omeka\Status');
 
@@ -163,8 +106,36 @@ class Module extends AbstractModule
 
                 $site = $response->getContent();
 
+                $navigation = $site->getNavigation();
+
+                $userRoles = array();
+
+                $auth = $this->serviceLocator->get('Omeka\AuthenticationService');
+                if ($auth->hasIdentity()) {
+                    // Authenticated user, get roles and parse navigation.
+
+                    $user = $auth->getIdentity();
+
+                    // Get main user role@
+                    $userRoles[] = $user->getRole();
+
+                    // Get user role for this site
+                    $sitePermissions = $site->getSitePermissions();
+                    foreach ($sitePermissions as $sitePermission) {
+                        /** @var \Omeka\Api\Representation\UserRepresentation $registeredUser */
+                        /** @var \Omeka\Entity\SitePermission $$sitePermission */
+                        $registeredUserId = $sitePermission->getUser()->getId();
+                        if ($registeredUserId == $user->getId())
+                        {
+                            $userRoles[] = 'permission_' . $sitePermission->getRole();
+                        }
+                    }
+                }
+
+                $navigation = $this->filterNavigation($navigation, $userRoles);
+
                 //  Reset navigation - Proof of concept
-                $site->setNavigation(array());
+                $site->setNavigation($navigation);
             }
         }
     }
