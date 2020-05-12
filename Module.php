@@ -1,19 +1,9 @@
 <?php
 namespace RoleBasedNavigation;
 
-use Composer\Semver\Comparator;
 use Omeka\Module\AbstractModule;
-use Zend\EventManager\EventInterface;
-use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Controller\AbstractController;
 use Zend\EventManager\SharedEventManagerInterface;
-use Omeka\Permissions\Acl;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Session\Container;
-use Zend\View\Renderer\PhpRenderer;
-use Zend\Http\PhpEnvironment\Response;
 use Zend\EventManager\Event;
-use Omeka\Api\Representation\SiteRepresentation;
 use Zend\Authentication\AuthenticationService;
 use Omeka\Api\Manager;
 use Omeka\Settings\UserSettings;
@@ -27,8 +17,7 @@ class Module extends AbstractModule
      */
     public function attachListeners(
         SharedEventManagerInterface $sharedEventManager
-    )
-    {
+    ) {
         $sharedEventManager->attach('Omeka\Api\Adapter\SiteAdapter', 'api.read.post', array(
             $this,
             'handleSiteNavigation'
@@ -48,14 +37,14 @@ class Module extends AbstractModule
     }
 
     /**
-     *  Check roles
-     *  If mismatch or guest: pop $link
+     *  Filter roles in navigation array.
+     *  If mismatch or unauth user: unset navigation link
      *  else
      *  recursively call filterNavigation on sub links
      *
      * @param array $navigation
      * @param array $roles
-     * @return unknown
+     * @return array()
      */
     public function filterNavigation(array $navigation, array $roles = [])
     {
@@ -63,10 +52,9 @@ class Module extends AbstractModule
 
         $popAll = empty($roles);
 
-        foreach($navigation as $key => $link) {
+        foreach ($navigation as $key => $link) {
             if (isset($link['data']['role_based_navigation_role_ids'])
                 && !empty($link['data']['role_based_navigation_role_ids'])) {
-
                 if ($popAll) {
                     unset($navigation[$key]);
                     continue;
@@ -101,10 +89,8 @@ class Module extends AbstractModule
         $status = $this->serviceLocator->get('Omeka\Status');
 
         if ($status->isSiteRequest()) {
-
             if ($response = $event->getParam('response')) {
-
-                $site = $response->getContent();
+                $site = $response->getContent(); // Maybe filter on current site?
 
                 $navigation = $site->getNavigation();
 
@@ -125,8 +111,7 @@ class Module extends AbstractModule
                         /** @var \Omeka\Api\Representation\UserRepresentation $registeredUser */
                         /** @var \Omeka\Entity\SitePermission $$sitePermission */
                         $registeredUserId = $sitePermission->getUser()->getId();
-                        if ($registeredUserId == $user->getId())
-                        {
+                        if ($registeredUserId == $user->getId()) {
                             $userRoles[] = 'permission_' . $sitePermission->getRole();
                         }
                     }
