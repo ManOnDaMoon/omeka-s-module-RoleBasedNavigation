@@ -20,22 +20,10 @@ $formId = uniqid('_rbn');
         ]);
     ?>
     <script type="text/javascript">
-    	console.log('test');
-    	// This gets called each time jsTree is redrawn
-    	// So we need to delete possibly existing chosen nodes
-    	// FIXME : Yet still, moving a node disables the Chosen selector...
-    	// Need to register an event to jsTree
-    	// Need to keep a global list of selectors and update them based on jstree events
-		$('#role_select<?php echo $formId; ?>_chosen').remove();
-        $('#role_select<?php echo $formId; ?>').chosen(chosenOptions);
-        $('.jstree-editlink-container').css('overflow', 'visible');
-        $('#role_select<?php echo $formId; ?>').on('change', function(evt, params) {
-        	if (params.selected) {
-        	    $('#role_select<?php echo $formId; ?> option[value=' + params.selected + ']').attr('selected','selected');
-        	}
-        	if (params.deselected) {
-        	    $('#role_select<?php echo $formId; ?> option[value=' + params.deselected + ']').removeAttr('selected');
-        	}
-        });
+		if (chosenSelectors.indexOf('#role_select<?php echo $formId; ?>') === -1) {
+			chosenSelectors.push('#role_select<?php echo $formId; ?>');
+			redrawSelectors();
+		}
+	    $('.jstree-editlink-container').css('overflow', 'visible');
     </script>
 </div>

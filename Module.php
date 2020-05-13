@@ -9,6 +9,8 @@ use Omeka\Api\Manager;
 use Omeka\Settings\UserSettings;
 use Omeka\Settings\SiteSettings;
 use Omeka\Entity\User;
+use Zend\View\Renderer\PhpRenderer;
+use Zend\Mvc\MvcEvent;
 
 class Module extends AbstractModule
 {
@@ -22,6 +24,8 @@ class Module extends AbstractModule
             $this,
             'handleSiteNavigation'
         ));
+
+        $sharedEventManager->attach('Omeka\Controller\SiteAdmin\Index', 'view.layout', [$this, 'addJs']);
     }
 
     /**
@@ -34,6 +38,15 @@ class Module extends AbstractModule
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function addJs(Event $event)
+    {
+        /* @var PhpRenderer $renderer */
+        $renderer = $event->getTarget();
+        $renderer->headScript()->appendFile($renderer->assetUrl('js/role-based-navigation.js', 'RoleBasedNavigation'));
+
+        return null;
     }
 
     /**
@@ -62,7 +75,7 @@ class Module extends AbstractModule
 
                 $authorizedRoles = $link['data']['role_based_navigation_role_ids'];
 
-                foreach ($authorizedRoles as $roleKey => $role){
+                foreach ($authorizedRoles as $roleKey => $role) {
                     if (!in_array($role, $roles)) {
                         unset($authorizedRoles[$roleKey]);
                     }
@@ -71,7 +84,6 @@ class Module extends AbstractModule
                     unset($navigation[$linkKey]);
                     continue;
                 }
-
             }
 
             // If kept, recursively parse existing sub links
