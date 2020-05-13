@@ -10,12 +10,6 @@ class BrowseItemSets extends \Omeka\Site\Navigation\Link\BrowseItemSets
         return 'role-based-navigation/navigation-link-form/browse';
     }
 
-    public function getName()
-    {
-        $name = parent::getName() . ' ';
-        return sprintf('%s (role based)', $name); // @translate
-    }
-
     public function toZend(array $data, SiteRepresentation $site)
     {
         $result = parent::toZend($data, $site);
