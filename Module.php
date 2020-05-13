@@ -11,6 +11,7 @@ use Omeka\Settings\SiteSettings;
 use Omeka\Entity\User;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\Mvc\MvcEvent;
+use Omeka\Permissions\Acl;
 
 class Module extends AbstractModule
 {
@@ -126,6 +127,10 @@ class Module extends AbstractModule
                     // Authenticated user, get roles and parse navigation.
 
                     $user = $auth->getIdentity();
+
+                    if ($user->getRole() == Acl::ROLE_GLOBAL_ADMIN) {
+                        return; // Do not filter navigation for global admins
+                    }
 
                     // Get main user role@
                     $userRoles[] = $user->getRole();

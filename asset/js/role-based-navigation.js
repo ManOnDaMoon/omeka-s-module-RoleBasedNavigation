@@ -5,12 +5,13 @@ function redrawSelectors () {
         $(value + '_chosen').remove();
         $(value).chosen('destroy');
         $(value).chosen(chosenOptions);
-        $(value).on('chosen:showing_dropdown', value, function(evt, params) {
-            $('#nav-tree').jstree(
-                    'select_node',
-                    $(value).closest("li .jstree-node").attr('id'));
-            });
         
+        $(value).on('chosen:showing_dropdown', function(evt, params) {
+            $('#nav-tree').jstree(
+                    'deselect_all',
+                    true);
+        });
+
         $(value).on('change', function(evt, params) {
             if (params.selected) {
                 $(value + ' option[value=' + params.selected + ']').attr('selected','selected');
