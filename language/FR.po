@@ -8,22 +8,35 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-13 10:13+0200\n"
+"POT-Creation-Date: 2020-05-15 12:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Laurent Thomas <ManOnDaMoon@GitHub>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: FR\n"
+"Language-Team: fr <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: view/role-based-navigation/common/role-select.phtml:8
 msgid "Roles filter"
-msgstr "Filtrer les rôles"
+msgstr "Filtrer par rôle"
 
-#: src/Site/Navigation/Link/Url.php:16
-#: src/Site/Navigation/Link/BrowseItemSets.php:16
-#: src/Site/Navigation/Link/Page.php:16 src/Site/Navigation/Link/Browse.php:16
-#, php-format
-msgid "%s (role based)"
-msgstr "%s (basé sur les rôles)"
+#: src/Service/Form/Element/RoleSelectFactory.php:23
+msgid "Authenticated users only"
+msgstr "Utilisateurs enregistrés uniquement"
+
+#: src/Service/Form/Element/RoleSelectFactory.php:24
+msgid "Unregistered visitors only"
+msgstr "Visiteurs anonymes uniquement"
+
+#: src/Service/Form/Element/RoleSelectFactory.php:28
+msgid "Global filters — will override single role filters"
+msgstr "Filtres globaux — écrasera les filtres sur rôle unique"
+
+#: src/Service/Form/Element/RoleSelectFactory.php:34
+msgid "User roles"
+msgstr "Rôles utilisateurs"
+
+#: src/Service/Form/Element/RoleSelectFactory.php:39
+msgid "Site roles"
+msgstr "Permissions du site"

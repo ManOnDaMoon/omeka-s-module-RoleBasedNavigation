@@ -24,10 +24,22 @@ class RoleSelectFactory implements FactoryInterface
             Module::RBN_UNAUTHENTICATED_VISITORS => 'Unregistered visitors only', // @translate
         ];
 
-        $roles[] = ['label' => 'Global filters — will override single role filters', 'options' => $genericRoles]; // @translate
+        $roles[] = [
+            'label' => 'Global filters — will override single role filters', // @translate
+            'options' => $genericRoles,
 
-        $roles[] = ['label' => 'User roles', 'options' => $userRoles];
-        $roles[] = ['label' => 'Site roles', 'options' => $sitePermissions];
+        ];
+
+        $roles[] = [
+            'label' => 'User roles', // @translate
+            'options' => $userRoles
+
+        ];
+        $roles[] = [
+            'label' => 'Site roles', // @translate
+            'options' => $sitePermissions
+
+        ];
 
         $element = new Select;
         $element->setValueOptions($roles);
