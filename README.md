@@ -35,17 +35,35 @@ When adding or editing (pencil icon) a new link or page in your site's navigatio
 
 Note that *Global Admin* roles will always be able to display the whole navigation links list at anytime.
 
+### Generic role filters
+
+FOr more usability, this module adds generic role filters that let you display navigation items either to *Authenticated users only* or to *Unregistered visitors only*.
+
 ### Apply filter on non core navigation links
 
 This module is not able to apply directly any filters to navigation links provided by other modules.
 
 A way to filter them anyway is to apply the role filters to a parent link, such as a URL navigation link. In case you do not want this parent to be a 'real' hypertext link, just leave its URL field to '#' and it will act as a navigation category name.
 
+### Role based home page
+
+If you setup your site navigation to use the *First page in navigation* as your site's home, then you can configure different home pages based on roles.
+
+Example use case:
+
+* In your navigation configuration, setup the *Select a home page* option to *First page in navigation*.
+* Setup your public home page as first navigation item and filter roles using the generic role filter *Unregistered visitors only*. When unregistered users will get to your site, they will land on this home page.
+* Setup a second page as your second navigation item and filter roles using the generic role filter *Authenticated users only*. When registered users will browse to your site, they will be greated with this home page.
+* If you wish to filter based on specific roles, you'll be able to add as many home pages as there roles on your Omeka S install.
+
+Note that if instead of setting up the *First page in navigation* option, you explicitly name a page as the home for your site, it will still be served to all visitors without any filter applied.
+
+
 ### Gotchas
 
 Please be aware that this module only adds a view filter to the navigation, but does not add a new permission layer to your site. __The links not being displayed does not mean users can't access them with the proper URL if they effectively are granted the required Access Control List feature!__
 
-Also please note that if roles are restricted on a site's home page, users without the adequate roles will meet a "This site has no home page" error message. I'll have a look in the near future at how to handle this more elegantly.
+Also please note that if roles are restricted on a site's first page and that the *First page in navigation* option is enabled, users without the adequate roles will either be redirected to the next accessible page, or meet a "This site has no home page" error message.
 
 ## Module configuration
 
