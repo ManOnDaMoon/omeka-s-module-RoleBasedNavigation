@@ -19,7 +19,7 @@ msgstr ""
 
 #: view/role-based-navigation/common/role-select.phtml:8
 msgid "Roles filter"
-msgstr "Filtrer par rôle"
+msgstr "Filtrer par rôles"
 
 #: src/Service/Form/Element/RoleSelectFactory.php:23
 msgid "Authenticated users only"
