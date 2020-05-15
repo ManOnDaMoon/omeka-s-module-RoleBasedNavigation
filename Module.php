@@ -68,7 +68,6 @@ class Module extends AbstractModule
         foreach ($navigation as $linkKey => $link) {
             if (isset($link['data']['role_based_navigation_role_ids'])
                 && !empty($link['data']['role_based_navigation_role_ids'])) {
-
                 $authorizedRoles = $link['data']['role_based_navigation_role_ids'];
 
                 // Handle generic selectors: rbn_unauth & rbn_auth

@@ -11,7 +11,8 @@ class Page extends \Omeka\Site\Navigation\Link\Page
         return 'role-based-navigation/navigation-link-form/page';
     }
 
-    protected function _filterRoleSelectors(array $roleSelectors) {
+    protected function _filterRoleSelectors(array $roleSelectors)
+    {
         if (in_array(Module::RBN_AUTHENTICATED_USERS, $roleSelectors)) {
             if (in_array(Module::RBN_UNAUTHENTICATED_VISITORS, $roleSelectors)) {
                 return []; // equivalent to empty selection
@@ -20,7 +21,7 @@ class Page extends \Omeka\Site\Navigation\Link\Page
                     Module::RBN_AUTHENTICATED_USERS
                 ];
             }
-        } else if (in_array(Module::RBN_UNAUTHENTICATED_VISITORS, $roleSelectors)) {
+        } elseif (in_array(Module::RBN_UNAUTHENTICATED_VISITORS, $roleSelectors)) {
             return [
                 Module::RBN_UNAUTHENTICATED_VISITORS
             ];
