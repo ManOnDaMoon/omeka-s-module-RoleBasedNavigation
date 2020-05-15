@@ -18,6 +18,13 @@ class RoleSelectFactory implements FactoryInterface
             'permission_admin' => 'Admin', // @translate
         ];
 
+        $genericRoles = [
+            'rbn_unauth' => 'Unauthenticated users only', // @translate
+            'rbn_auth' => 'All authenticated users' // @translate
+        ];
+
+        $roles[] = ['label' => 'Generic filters', 'options' => $genericRoles];
+
         $roles[] = ['label' => 'User roles', 'options' => $userRoles];
         $roles[] = ['label' => 'Site roles', 'options' => $sitePermissions];
 
