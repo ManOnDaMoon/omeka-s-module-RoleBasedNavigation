@@ -1,25 +1,33 @@
 var chosenSelectors = [];
 
-function redrawSelectors () {
-    $.each(chosenSelectors, function (index, value) {
-        $(value + '_chosen').remove();
-        $(value).chosen('destroy');
-        $(value).chosen(chosenOptions);
+function registerSelector(selectorId) {
+    if (chosenSelectors.indexOf(selectorId) === -1) {
+        chosenSelectors.push(selectorId);
         
-        $(value).on('chosen:showing_dropdown', function(evt, params) {
+        $(selectorId).on('chosen:showing_dropdown', function(evt, params) {
             $('#nav-tree').jstree(
                     'deselect_all',
                     true);
         });
 
-        $(value).on('change', function(evt, params) {
+        $(selectorId).on('change', function(evt, params) {
             if (params.selected) {
-                $(value + ' option[value=' + params.selected + ']').attr('selected','selected');
+                $(selectorId + ' option[value=' + params.selected + ']').attr('selected','selected');
             }
             if (params.deselected) {
-                $(value + ' option[value=' + params.deselected + ']').removeAttr('selected');
+                $(selectorId + ' option[value=' + params.deselected + ']').removeAttr('selected');
             }
         });
+
+        redrawSelectors();
+    }
+}
+
+function redrawSelectors () {
+    $.each(chosenSelectors, function (index, value) {
+        $(value + '_chosen').remove();
+        $(value).chosen('destroy');
+        $(value).chosen(chosenOptions);
     });
 };
 

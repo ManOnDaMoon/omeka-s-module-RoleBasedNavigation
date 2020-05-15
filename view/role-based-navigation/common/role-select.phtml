@@ -20,10 +20,7 @@ $formId = uniqid('_rbn');
         ]);
     ?>
     <script type="text/javascript">
-		if (chosenSelectors.indexOf('#role_select<?php echo $formId; ?>') === -1) {
-			chosenSelectors.push('#role_select<?php echo $formId; ?>');
-			redrawSelectors();
-		}
+		registerSelector('#role_select<?php echo $formId; ?>');
 	    $('.jstree-editlink-container').css('overflow', 'visible');
     </script>
 </div>
