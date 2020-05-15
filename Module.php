@@ -15,6 +15,9 @@ use Omeka\Permissions\Acl;
 
 class Module extends AbstractModule
 {
+    const RBN_AUTHENTICATED_USERS = "rbn_auth";
+    const RBN_UNAUTHENTICATED_VISITORS = "rbn_unauth";
+
     /**
      * Attach to Zend and Omeka specific listeners
      */
@@ -62,20 +65,29 @@ class Module extends AbstractModule
      */
     public function filterNavigation(array $navigation, array $roles = [])
     {
-        $filteredNavigation = [];
-
-        $popAll = empty($roles);
-
         foreach ($navigation as $linkKey => $link) {
             if (isset($link['data']['role_based_navigation_role_ids'])
                 && !empty($link['data']['role_based_navigation_role_ids'])) {
-                if ($popAll) {
-                    unset($navigation[$linkKey]);
-                    continue;
-                }
 
                 $authorizedRoles = $link['data']['role_based_navigation_role_ids'];
 
+                // Handle generic selectors: rbn_unauth & rbn_auth
+                if (in_array(self::RBN_AUTHENTICATED_USERS, $authorizedRoles)) {
+                    if (empty($roles)) {
+                        // Auth required, unregistered visitor found:
+                        unset($navigation[$linkKey]);
+                    }
+                    continue;
+                }
+                if (in_array(self::RBN_UNAUTHENTICATED_VISITORS, $authorizedRoles)) {
+                    if (!empty($roles)) {
+                        // Unregistered visitor required, auth user found:
+                        unset($navigation[$linkKey]);
+                    }
+                    continue;
+                }
+
+                // No generic selector, iterate all roles:
                 foreach ($authorizedRoles as $roleKey => $role) {
                     if (!in_array($role, $roles)) {
                         unset($authorizedRoles[$roleKey]);

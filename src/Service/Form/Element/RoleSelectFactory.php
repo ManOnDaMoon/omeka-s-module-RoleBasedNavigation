@@ -2,6 +2,7 @@
 namespace RoleBasedNavigation\Service\Form\Element;
 
 use Interop\Container\ContainerInterface;
+use RoleBasedNavigation\Module;
 use Zend\Form\Element\Select;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -19,11 +20,11 @@ class RoleSelectFactory implements FactoryInterface
         ];
 
         $genericRoles = [
-            'rbn_unauth' => 'Unauthenticated users only', // @translate
-            'rbn_auth' => 'All authenticated users' // @translate
+            Module::RBN_AUTHENTICATED_USERS => 'Authenticated users only', // @translate
+            Module::RBN_UNAUTHENTICATED_VISITORS => 'Unregistered visitors only', // @translate
         ];
 
-        $roles[] = ['label' => 'Generic filters', 'options' => $genericRoles];
+        $roles[] = ['label' => 'Global filters — will override single role filters', 'options' => $genericRoles]; // @translate
 
         $roles[] = ['label' => 'User roles', 'options' => $userRoles];
         $roles[] = ['label' => 'Site roles', 'options' => $sitePermissions];
