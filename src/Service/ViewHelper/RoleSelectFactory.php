@@ -3,7 +3,7 @@
 namespace RoleBasedNavigation\Service\ViewHelper;
 
 use RoleBasedNavigation\View\Helper\RoleSelect;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class RoleSelectFactory implements FactoryInterface

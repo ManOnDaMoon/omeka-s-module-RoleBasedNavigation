@@ -2,15 +2,15 @@
 namespace RoleBasedNavigation;
 
 use Omeka\Module\AbstractModule;
-use Zend\EventManager\SharedEventManagerInterface;
-use Zend\EventManager\Event;
-use Zend\Authentication\AuthenticationService;
+use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\EventManager\Event;
+use Laminas\Authentication\AuthenticationService;
 use Omeka\Api\Manager;
 use Omeka\Settings\UserSettings;
 use Omeka\Settings\SiteSettings;
 use Omeka\Entity\User;
-use Zend\View\Renderer\PhpRenderer;
-use Zend\Mvc\MvcEvent;
+use Laminas\View\Renderer\PhpRenderer;
+use Laminas\Mvc\MvcEvent;
 use Omeka\Permissions\Acl;
 
 class Module extends AbstractModule
@@ -19,7 +19,7 @@ class Module extends AbstractModule
     const RBN_UNAUTHENTICATED_VISITORS = "rbn_unauth";
 
     /**
-     * Attach to Zend and Omeka specific listeners
+     * Attach to Laminas and Omeka specific listeners
      */
     public function attachListeners(
         SharedEventManagerInterface $sharedEventManager

@@ -3,8 +3,8 @@ namespace RoleBasedNavigation\Service\Form\Element;
 
 use Interop\Container\ContainerInterface;
 use RoleBasedNavigation\Module;
-use Zend\Form\Element\Select;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Form\Element\Select;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class RoleSelectFactory implements FactoryInterface
 {
