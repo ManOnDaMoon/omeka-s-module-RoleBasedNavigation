@@ -15,8 +15,8 @@ class RoleSelectFactory implements FactoryInterface
 
         $sitePermissions = [
             'permission_viewer' => 'Viewer', // @translate
-            'permission_editor' => 'Editor', // @translate
-            'permission_admin' => 'Admin', // @translate
+            'permission_editor' => 'Creator', // @translate
+            'permission_admin' => 'Manager', // @translate
         ];
 
         $genericRoles = [

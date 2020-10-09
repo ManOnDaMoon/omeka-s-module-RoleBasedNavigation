@@ -5,7 +5,7 @@ This module adds the ability to filter Omeka S sites' navigation links based on 
 
 ## Installing / Getting started
 
-RoleBasedNavigation is compatible with Omeka S v2.
+RoleBasedNavigation is compatible with Omeka S v3.
 
 * Download and unzip in your `omeka-s/modules` directory.
 * Rename the uncompressed folder to `RoleBasedNavigation`.
@@ -29,7 +29,7 @@ Navigate to your Admin Panel > Site Configuration (pencil icon), and click the *
 When adding or editing (pencil icon) a new link or page in your site's navigation tree, you'll see a *Role filters* selector:
 
 * Leave a link's role selector empty if you wish to display this link publicly
-* Add one or more roles to the selector to display the link only to these roles. You can select global roles (such as *Site Administrator* or *Researcher*) or site permission roles (*Admin*, *Viewer* or *Editor*).
+* Add one or more roles to the selector to display the link only to these roles. You can select global roles (such as *Supervisor* or *Researcher*) or site permission roles (*Manager*, *Viewer* or *Creator*).
 * Click the 'x' icon next to a role to remove it from the role selector.
 * Do not forget to save your navigation tree when done.
 
@@ -75,7 +75,7 @@ See the Issues page.
 
 ## Contributing
 
-Contributions are welcome. The module is in early development stage and could do with more advanced usage and testing.
+Contributions are welcome. Please use Issues and Pull Requests workflows to contribute.
 
 ## Links
 
