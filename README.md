@@ -87,8 +87,9 @@ Also check out my other Omeka S modules:
 
 * RestrictedSites: https://github.com/ManOnDaMoon/omeka-s-module-RestrictedSites
 * UserNames: https://github.com/ManOnDaMoon/omeka-s-module-UserNames
-* SiteSwitcher: https://github.com/ManOnDaMoon/omeka-s-module-SiteSwitcher
+* RoleBasedNavigation: https://github.com/ManOnDaMoon/omeka-s-module-RoleBasedNavigation
 * Sitemaps: https://github.com/ManOnDaMoon/omeka-s-module-Sitemaps
+* Siteswitcher: https://github.com/ManOnDaMoon/omeka-s-module-SiteSwitcher
 
 ## Licensing
 
