@@ -19,9 +19,11 @@ return [
         'invokables' => [
             'page' => RoleBasedNavigation\Site\Navigation\Link\Page::class,
             'url' => RoleBasedNavigation\Site\Navigation\Link\Url::class,
-            'browse' => RoleBasedNavigation\Site\Navigation\Link\Browse::class,
-            'browseItemSets' => RoleBasedNavigation\Site\Navigation\Link\BrowseItemSets::class
-        ]
+        ],
+        'factories' => [
+            'browse' => RoleBasedNavigation\Service\Site\Navigation\Link\BrowseFactory::class,
+            'browseItemSets' => RoleBasedNavigation\Service\Site\Navigation\Link\BrowseItemSetsFactory::class,
+        ],
     ],
     'view_helpers' => [
         'factories' => [
