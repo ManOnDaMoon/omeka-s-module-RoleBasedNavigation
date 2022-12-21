@@ -70,7 +70,7 @@ class Module extends AbstractModule
                 && !empty($link['data']['role_based_navigation_role_ids'])) {
                 $authorizedRoles = $link['data']['role_based_navigation_role_ids'];
 
-                // Handle generic selectors: rbn_unauth & rbn_auth
+                // Handle global selectors: rbn_unauth & rbn_auth
                 if (in_array(self::RBN_AUTHENTICATED_USERS, $authorizedRoles)) {
                     if (empty($roles)) {
                         // Auth required, unregistered visitor found:
@@ -127,8 +127,7 @@ class Module extends AbstractModule
 
         if ($status->isSiteRequest()) {
             if ($response = $event->getParam('response')) {
-                $site = $response->getContent(); // Maybe filter on current site?
-
+                $site = $response->getContent();
                 $navigation = $site->getNavigation();
 
                 $userRoles = array();
@@ -160,8 +159,8 @@ class Module extends AbstractModule
 
                 $navigation = $this->filterNavigation($navigation, $userRoles);
 
-                //  Reset navigation - Proof of concept
-                $site->setNavigation($navigation); // Has this just overwritten site navigation???
+                //  Overwrite site navigation
+                $site->setNavigation($navigation);
             }
         }
     }
