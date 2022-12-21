@@ -5,7 +5,7 @@ This module adds the ability to filter Omeka S sites' navigation links based on 
 
 ## Installing / Getting started
 
-RoleBasedNavigation is compatible with Omeka S v3.
+Starting v1.2, RoleBasedNavigation is compatible with Omeka S v4.
 
 * Download and unzip in your `omeka-s/modules` directory.
 * Rename the uncompressed folder to `RoleBasedNavigation`.
@@ -87,6 +87,8 @@ Also check out my other Omeka S modules:
 
 * RestrictedSites: https://github.com/ManOnDaMoon/omeka-s-module-RestrictedSites
 * UserNames: https://github.com/ManOnDaMoon/omeka-s-module-UserNames
+* SiteSwitcher: https://github.com/ManOnDaMoon/omeka-s-module-SiteSwitcher
+* Sitemaps: https://github.com/ManOnDaMoon/omeka-s-module-Sitemaps
 
 ## Licensing
 
